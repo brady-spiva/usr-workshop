@@ -1,23 +1,16 @@
 # Import required libraries
 import dash
-from dash import html, dcc
-from dash.dependencies import Input, Output
+from dash import html, callback_context
+from dash.dependencies import Input, Output, State
 from flask import Flask
-from flask_mail import Mail, Message
 import dash_bootstrap_components as dbc
+import secrets
+import string
+import re
 
 # Initialize the Flask app and Dash app
 server = Flask(__name__)
 app = dash.Dash(__name__, server=server, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-# Configure email settings
-# app.config['MAIL_SERVER'] = 'your-mail-server.com'
-# app.config['MAIL_PORT'] = 587
-# app.config['MAIL_USERNAME'] = 'your-email@example.com'
-# app.config['MAIL_PASSWORD'] = 'your-email-password'
-# app.config['MAIL_USE_TLS'] = True
-# app.config['MAIL_USE_SSL'] = False
-# mail = Mail(app)
 
 # Define the layout of the app
 app.layout = html.Div(
@@ -25,6 +18,7 @@ app.layout = html.Div(
         dbc.Container(
             [
                 html.H1('OpenShift User Creation App', className='mt-5 mb-4 text-center'),  # Center the heading
+                html.Div('Please enter a username - your password will be automagically generated. Your username should be at least 5 characters long and contain only letters, numbers, and underscores.', className='text-center text-muted mb-4'),
                 dbc.Row(
                     dbc.Col(
                         dbc.CardGroup(
@@ -42,22 +36,6 @@ app.layout = html.Div(
                     ),
                 ),
                 dbc.Row(
-                    dbc.Col(
-                        dbc.CardGroup(
-                            [
-                                dbc.Label('Password:'),
-                                dbc.InputGroup(
-                                    [
-                                        dbc.Input(id='password-input', type='password', value='', className='form-control'),
-                                    ]
-                                ),
-                            ]
-                        ),
-                        width=12,
-                        className='mb-3'
-                    ),
-                ),
-                dbc.Row(
                     dbc.Col(dbc.Button('Create User', id='create-button', n_clicks=0, color='primary', className='btn-lg btn-block'), width=12),
                     className='mb-4'
                 ),
@@ -66,39 +44,84 @@ app.layout = html.Div(
             className='border p-4',  # Add border and padding around the form
             style={'width': '400px', 'margin': '0 auto'},  # Set form width and center it horizontally
         ),
-        html.Div(id='hidden-div', style={'display': 'none'})  # Hidden div for storing state
+        html.Div(id='hidden-div', style={'display': 'none'}),  # Hidden div for storing state
+        # Modal to display OpenShift credentials and cluster URL
+        dbc.Modal(
+            [
+                dbc.ModalHeader('OpenShift Account Information'),
+                dbc.ModalBody(
+                    dbc.Table(
+                        [
+                            html.Tr([html.Th('Username:'), html.Td(id='modal-username')]),
+                            html.Tr([html.Th('Password:'), html.Td(id='modal-password')]),
+                            html.Tr([html.Th('Cluster URL:'), html.Td(id='modal-cluster-url')]),
+                        ],
+                        bordered=True,
+                        striped=True,
+                        hover=True,
+                        responsive=True,
+                    )
+                ),
+                dbc.ModalFooter(
+                    dbc.Button('Close - I have copied this information to another location', id='close-modal-button', n_clicks=0)
+                ),
+            ],
+            id='output-modal',
+            size='lg',
+            centered=True,
+        )
     ],
-    className='d-flex justify-content-center align-items-center',  # Center the layout vertically and horizontally
-    style={'height': '100vh'}  # Ensure the container takes the full height of the viewport
+    className='d-flex justify-content-center align-items-center',
+    style={'height': '100vh'}
 )
 
 
-# Define callback to handle button click event
+# Combined callback to handle user creation and modal closing, and generate a random password
 @app.callback(
-    Output('output-message', 'children'),
-    Input('create-button', 'n_clicks'),
-    Input('username-input', 'value'),
-    Input('password-input', 'value')
+    [Output('output-modal', 'is_open'),
+     Output('modal-username', 'children'),
+     Output('modal-password', 'children'),
+     Output('modal-cluster-url', 'children')],
+    [Input('create-button', 'n_clicks'),
+     Input('close-modal-button', 'n_clicks')],
+    [State('username-input', 'value')],
+    prevent_initial_call=True
 )
-def create_user(n_clicks, username, password):
-    if n_clicks > 0:
-        # Logic to create user in OpenShift Cluster
-        # Code for creating user in OpenShift Cluster goes here
-        # For demonstration purposes, let's assume the user creation is successful
-        user_creation_success = True
+def process_user_creation(create_clicks, close_clicks, username):
+    ctx = callback_context
 
-        if user_creation_success:
-            # Send email to the user
-            msg = Message('OpenShift Account Information', sender='your-email@example.com', recipients=[username])
-            msg.body = f'Username: {username}\nPassword: {password}\nOpenShift Cluster URL: https://openshift-cluster-url.com'
-            # mail.send(msg)
-            return 'User created successfully! Check your email for login information.'
-        else:
-            return 'User creation failed. Please try again.'
+    if not ctx.triggered_id:
+        raise dash.exceptions.PreventUpdate
+
+    if 'create-button' in ctx.triggered_id:
+        # Generate a random complex password excluding specific special characters
+        excluded_special_characters = ':;\\/_-|'  # Special characters to be excluded
+        password_characters = ''.join(
+            char for char in string.ascii_letters + string.digits + string.punctuation if char not in excluded_special_characters
+        )
+        autogenerated_password = ''.join(secrets.choice(password_characters) for _ in range(12))
+
+        # Code for creating a user in OpenShift cluster
+        # ...
+
+        cluster_url = 'https://openshift-cluster-url.com'  # Replace with the actual OpenShift cluster URL
+
+        return True, username, autogenerated_password, cluster_url
+    elif 'close-modal-button' in ctx.triggered_id:
+        return False, '', '', ''
+
+# Define input validation callback function for both username and password
+@app.callback(
+    Output('create-button', 'disabled'),
+    [Input('username-input', 'value')],
+    #  Input('password-input', 'value')],
+    prevent_initial_call=False
+)
+def validate_inputs(username):
+    if (username is None or len(username) < 5 or re.search(r'[^\w]', username) or ' ' in username):
+        return True  # Disable the button if validation fails
+    return False  # Enable the button if validation passes
 
 # Run the app
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-# run gunicorn manually on localhost
-# gunicorn wsgi:application -b 127.0.0.1:8080
