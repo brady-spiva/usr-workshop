@@ -1,0 +1,30 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: usr-workshop
+  namespace: workshop-demo
+  labels:
+    app: usr-workshop
+    app.kubernetes.io/component: usr-workshop
+    app.kubernetes.io/instance: usr-workshop
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'usr-workshop:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'python:3.9-ubi8'
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/brady-spiva/usr-workshop'
+  runPolicy: Serial
