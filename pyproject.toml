@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Brady Spiva <bspiva@redhat.com>"]
 readme = "README.md"
-packages = [{include = "zipship_workshop"}]
+packages = []
 
 [tool.poetry.dependencies]
 python = "^3.11"
