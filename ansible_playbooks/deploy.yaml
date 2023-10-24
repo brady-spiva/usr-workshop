@@ -20,4 +20,5 @@
       redhat.openshift.k8s:
         state: present
         src: "../kubernetes/{{ item }}"
+        wait: true
       loop: "{{ reseource_defs }}"
