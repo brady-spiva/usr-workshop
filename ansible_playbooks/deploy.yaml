@@ -3,6 +3,7 @@
   gather_facts: false
   vars:
     reseource_defs:
+      - imagestream.yaml
       - buildconfig.yaml
       - deployment.yaml
       - service.yaml
