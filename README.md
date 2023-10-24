@@ -1,3 +1,5 @@
+# User Self Registration App
+
 # Example Dash OpenShift / s2i Repo
 This is meant to be a good starting point for creating Dash applications that are deployed to OpenShift.
 

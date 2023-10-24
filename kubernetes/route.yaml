@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/component: usr-workshop
     app.kubernetes.io/instance: usr-workshop
 spec:
-  host: usr-workshop-workshop-demo.apps-crc.testing
   to:
     kind: Service
     name: usr-workshop
@@ -18,8 +17,7 @@ spec:
   wildcardPolicy: None
 status:
   ingress:
-    - host: usr-workshop-workshop-demo.apps-crc.testing
-      routerName: default
+    - routerName: default
       conditions:
         - type: Admitted
           status: 'True'

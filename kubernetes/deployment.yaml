@@ -22,14 +22,14 @@ spec:
       containers:
         - name: usr-workshop
           image: >-
-            image-registry.openshift-image-registry.svc:5000/workshop-demo/usr-workshop@sha256:85a232e55cf7e5bf25192aaece523ccaeae0c5ee5c464866979b5c11215e409d
+            image-registry.openshift-image-registry.svc:5000/workshop-demo/usr-workshop:latest
           ports:
             - containerPort: 8080
               protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

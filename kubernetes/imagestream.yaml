@@ -1,0 +1,9 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: usr-workshop
+  namespace: workshop-demo
+  labels:
+    app: usr-workshop
+    app.kubernetes.io/component: usr-workshop
+    app.kubernetes.io/instance: usr-workshop

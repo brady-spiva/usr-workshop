@@ -1,0 +1,25 @@
+- name: Deploy USR App using S2I
+  hosts: localhost
+  gather_facts: false
+  vars:
+    reseource_defs:
+      - imagestream.yaml
+      - buildconfig.yaml
+      - deployment.yaml
+      - service.yaml
+      - route.yaml
+
+  tasks:
+    - name: Create Namespace
+      redhat.openshift.k8s:
+        name: workshop-demo
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Deploy App by reading the definition files 
+      redhat.openshift.k8s:
+        state: present
+        src: "../kubernetes/{{ item }}"
+        wait: true
+      loop: "{{ reseource_defs }}"
