@@ -189,4 +189,4 @@ def create_user_in_cluster(ocp_admin_username, ocp_admin_password, ocp_cluster_u
 # Run the app
 if __name__ == '__main__':
     # host needs to be set to this for deployment
-    app.run_server(debug=True, host='0.0.0.0')
+    app.run_server(debug=True, host='0.0.0.0', port=8080)
