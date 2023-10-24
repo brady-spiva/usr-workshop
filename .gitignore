@@ -112,6 +112,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+*.htpasswd
 
 # Spyder project settings
 .spyderproject

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  generation: 1
+  name: zipship-workshop-ui
+  namespace: workshop-demo
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      deployment: zipship-workshop-ui
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        deployment: zipship-workshop-ui
+    spec:
+      containers:
+      - image: ' '
+        imagePullPolicy: IfNotPresent
+        name: zipship-workshop-ui
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  conditions:
+  - lastTransitionTime: "2023-10-24T16:17:07Z"
+    lastUpdateTime: "2023-10-24T16:17:07Z"
+    message: Created new replica set "zipship-workshop-ui-66587b8694"
+    reason: NewReplicaSetCreated
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2023-10-24T16:17:07Z"
+    lastUpdateTime: "2023-10-24T16:17:07Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  - lastTransitionTime: "2023-10-24T16:17:07Z"
+    lastUpdateTime: "2023-10-24T16:17:07Z"
+    message: 'Pod "zipship-workshop-ui-66587b8694-wr5jv" is invalid: spec.containers[0].image:
+      Invalid value: " ": must not have leading or trailing whitespace'
+    reason: FailedCreate
+    status: "True"
+    type: ReplicaFailure
+  observedGeneration: 1
+  unavailableReplicas: 1
