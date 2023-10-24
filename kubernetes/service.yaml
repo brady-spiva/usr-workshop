@@ -1,0 +1,62 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: usr-workshop
+  namespace: workshop-demo
+  uid: a89c14f1-57ff-41ed-bc9b-e5f7a697b51e
+  resourceVersion: '38127'
+  creationTimestamp: '2023-10-24T16:58:09Z'
+  labels:
+    app: usr-workshop
+    app.kubernetes.io/component: usr-workshop
+    app.kubernetes.io/instance: usr-workshop
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  managedFields:
+    - manager: oc
+      operation: Update
+      apiVersion: v1
+      time: '2023-10-24T16:58:09Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":8080,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 10.217.4.94
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 10.217.4.94
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    deployment: usr-workshop
+status:
+  loadBalancer: {}
