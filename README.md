@@ -1,7 +1,5 @@
-# Example Dash OpenShift / s2i Repo
-This is meant to be a good starting point for creating Dash applications that are deployed to OpenShift.
+# A User Registration app that can be deployed to OpenShift using Source to Image (S2I)
 
-Open an issue or PR if the explanations below are inadequate, and we can help get you up to speed! :thumbsup:
 
 ## How to use this repo to build your own application
 
@@ -16,11 +14,11 @@ Open an issue or PR if the explanations below are inadequate, and we can help ge
 
 ## Local development
 
-Setup virtual environment
+Create virtual environment, activate, and install dependencies
 
 ```
-python -m venv venv
-. ./venv/bin/activate
+python -m venv .venv
+. ./.venv/bin/activate
 
 pip install -U pip
 pip install -r requirements.txt
@@ -58,21 +56,17 @@ See https://github.com/OpenShiftDemos/os-sample-python
 
 ## More information about this project
 
-This repo contains an example dash application that can be deployed to OpenShift using Source to Image (S2I). Here are the main files:
+This repo contains a Dash application that can be deployed to OpenShift using Source to Image (S2I). Here are the main files:
 
 1. The Dash Application (learn about Dash [HERE](https://dash.plotly.com/) )
 
     - `wsgi.py`;  main application, to be run by gunicorn
 
-    - `app/model.py`;  an optional file, to demonstrate how to modularize code
-
-    - `app/layout.py`;  an optional file, to demonstrate how to modularize code
-
 2. The S2I environment variables. Used to setup additional environment varibles (ex: setup packages using a Nexus repository)
 
     - `.s2i/environment`
 
-3. This file should contain the dependencies that your application needs to run, and those dependencies should be 'pinned' to a version.
+3. This file contains the dependencies that the application needs to run
 
     - `requirements.txt`
 
@@ -86,10 +80,7 @@ This repo contains an example dash application that can be deployed to OpenShift
 
 The file `wsgi.py` contains the instructions for python to run Dash. 
 
-It relies on `app/model.py` to run calculations on some data, and on `app/layout.py` to return a plotly figure that can be shown by the application. 
-
 When s2i builds the container, it will look into `.s2i` for additional instructions, including environment variables for installing packages with `pip`.
-
 
 ## Links
 - [Python s2i examples](https://github.com/sclorg/s2i-python-container/tree/master/examples)
