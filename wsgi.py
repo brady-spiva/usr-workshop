@@ -20,7 +20,7 @@ app.layout = html.Div(
     [
         dbc.Container(
             [
-                html.H1('OpenShift User Creation App', className='mt-5 mb-4 text-center'),  # Center the heading
+                html.H1('User Self Registration', className='mt-5 mb-4 text-center'),  # Center the heading
                 html.Div('Please enter a username - your password will be automagically generated. Your username should be at least 5 characters long and contain only letters, numbers, and underscores.', className='text-center text-muted mb-4'),
                 dbc.Row(
                     dbc.Col(
@@ -51,7 +51,7 @@ app.layout = html.Div(
         # Modal to display OpenShift credentials and cluster URL
         dbc.Modal(
             [
-                dbc.ModalHeader('OpenShift Account Information'),
+                dbc.ModalHeader('Account Information'),
                 dbc.ModalBody(
                     dbc.Table(
                         [

@@ -15,6 +15,9 @@ spec:
   resources: {}
   successfulBuildsHistoryLimit: 5
   failedBuildsHistoryLimit: 5
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
   strategy:
     type: Source
     sourceStrategy:

@@ -1,4 +1,5 @@
-# A User Registration app that can be deployed to OpenShift using Source to Image (S2I)
+
+# User Self Registration App
 
 
 ## How to use this repo to build your own application
