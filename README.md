@@ -1,17 +1,9 @@
 
 # User Self Registration App
 
+## Users for workshops, labs, etc. can register themselves and get credentials to use for the duration of the event. This is intended to be used on ephemeral OpenShift resources
+![Screenshot](./imgs/Screenshot.png)
 
-## How to use this repo to build your own application
-
-1. Fork this repository into your own Git repo
-    - This will create a copy that you will own
-2. Log into OpenShift
-2. Select the project in which you want to add an application
-    - There will be a dropdown of projects you have permissions to
-3. Go to the catalog and select 'python' to create a new python application
-4. Enter the app name and the URL for the app's repository (from step #1),
-5. Click 'Create'
 
 ## Local development
 
@@ -43,7 +35,7 @@ Access via http://localhost:8080/
 
 ## WSGI / gunicorn
 
-This sample Python application relies on the support provided by the default S2I builder for deploying a WSGI application using the ``gunicorn`` WSGI server. The requirements which need to be satisfied for this to work are:
+This Python application relies on the support provided by the default S2I builder for deploying a WSGI application using the ``gunicorn`` WSGI server. The requirements which need to be satisfied for this to work are:
 
 * The WSGI application code file needs to be named ``wsgi.py``.
 * The WSGI application entry point within the code file needs to be named ``application``.
