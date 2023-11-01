@@ -4,6 +4,7 @@ ansible-core==2.15.5
 ansible-lint==6.21.1
 astroid==3.0.0
 attrs==23.1.0
+bcrypt==4.0.1
 black==23.10.1
 blinker==1.6.2
 bracex==2.4
@@ -34,7 +35,9 @@ mccabe==0.7.0
 mdurl==0.1.2
 mypy-extensions==1.0.0
 nest-asyncio==1.5.8
+openshift-client==1.0.19
 packaging==23.2
+paramiko==3.3.1
 pathspec==0.11.2
 platformdirs==3.11.0
 plotly==5.17.0
@@ -43,6 +46,7 @@ pycparser==2.21
 pyflakes==3.1.0
 Pygments==2.16.1
 pylint==3.0.1
+PyNaCl==1.5.0
 python-dotenv==1.0.0
 PyYAML==6.0.1
 referencing==0.30.2

@@ -1,7 +1,7 @@
 
 # User Self Registration App
 
-## Users for workshops, labs, etc. can register themselves and get credentials to use for the duration of the event. This is intended to be used on ephemeral OpenShift resources
+### Users for workshops, labs, etc. can register themselves and get credentials to use for the duration of the event. This is intended to be used on ephemeral OpenShift resources
 ![Screenshot](./imgs/Screenshot.png)
 
 
