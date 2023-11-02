@@ -1,4 +1,4 @@
-*/.kube/config
+kubernetes/.kube/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
