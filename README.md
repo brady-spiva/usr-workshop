@@ -4,10 +4,25 @@
 ### Users for workshops, labs, etc. can register themselves and get credentials to use for the duration of the event. This is intended to be used on ephemeral OpenShift resources
 ![Screenshot](./imgs/Screenshot.png)
 
+The application is deployed to the `TODO` namespace. Users are managed using htpasswd. The htpasswd file is stored locally in the container and is **not persisted**. User information is also stored locally in the container to `users.csv`. This file is also **not persisted**.
+
+After using this application, users can be deleted by deleting the namespace. This will delete the htpasswd file and the users.csv file.
+
+Use the following command to retrieve the `users.csv` file from the container:
+
+```
+oc rsync <pod>:/path/to/users.csv .
+```
+
+
+## How to deploy User Self Registration App to an OpenShift cluster
+
+1. Copy a valid kubeconfig to `/kubernetes/.kube/config`
+2. 
 
 ## Local development
 
-Create virtual environment, activate, and install dependencies
+Create a Python virtual environment, activate it, and install Python dependencies
 
 ```
 python -m venv .venv
@@ -17,7 +32,7 @@ pip install -U pip
 pip install -r requirements.txt
 ```
 
-Run w/ python `_main_`
+Run w/ python `__main__`
 
 ```
 python wsgi.py
@@ -78,3 +93,9 @@ When s2i builds the container, it will look into `.s2i` for additional instructi
 ## Links
 - [Python s2i examples](https://github.com/sclorg/s2i-python-container/tree/master/examples)
 - [Dash (Plotly)](https://dash.plotly.com/)
+
+## Misc
+generating a service account, with a role binding to allow it to create users
+- we could do this all in a single YAML file: the deployment config, the role binding, the service account, pull the app code, use s2i
+when a pod is instantiated in a cluster, it already has a service account token that it can use to authenticate to the API server.
+- It is located inside the pod at: /var/run/secrets/kubernetes.io/serviceaccount/token
